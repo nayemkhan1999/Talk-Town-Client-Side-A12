@@ -5,12 +5,12 @@ import toast from "react-hot-toast";
 import useAuth from "../CustomHook/useAuth";
 
 const SocialLogin = () => {
-  const { googleLoginUser } = useAuth();
+  const { googleLogin } = useAuth();
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
   //Google Login User
   const handleSocialUser = () => {
-    googleLoginUser().then((result) => {
+    googleLogin().then((result) => {
       // console.log(result.user);
       const userInfo = {
         name: result?.user?.displayName,
@@ -29,7 +29,7 @@ const SocialLogin = () => {
   return (
     <div>
       <button
-        onClick={() => handleSocialUser(googleLoginUser)}
+        onClick={() => handleSocialUser(googleLogin)}
         className="btn bg-gray-600 text-white font-semibold w-full"
       >
         Continue With

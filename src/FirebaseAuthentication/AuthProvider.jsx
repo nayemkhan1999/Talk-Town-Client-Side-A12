@@ -49,39 +49,12 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unSubsCribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      //   //==================jwt access token start=====================
-      //   const logged = currentUser?.email || user?.email;
-      //   setUser(currentUser);
-      //   if (currentUser) {
-      //     axios
-      //       .post(
-      //         `https://hotel-booking-blond-tau.vercel.app/jwt`,
-      //         { logged },
-      //         { withCredentials: true }
-      //       )
-      //       .then((res) => {
-      //         // console.log(res.data);
-      //       });
-      //   } else {
-      //     axios
-      //       .post(
-      //         `https://hotel-booking-blond-tau.vercel.app/logout`,
-      //         { logged },
-      //         {
-      //           withCredentials: true,
-      //         }
-      //       )
-      //       .then((res) => {
-      //         // console.log(res.data);
-      //       });
-      //   }
-      //   //==================jwt access token End=====================
       setLoading(false);
     });
     return () => {
       unSubsCribe();
     };
-  }, [user?.email]);
+  }, []);
   const allValue = {
     createUser,
     user,

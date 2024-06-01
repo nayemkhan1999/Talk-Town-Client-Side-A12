@@ -8,6 +8,7 @@ import AuthProvider from "./FirebaseAuthentication/AuthProvider";
 import Login from "./FirebaseAuthentication/Login";
 import Error from "./Shared/Error";
 import Register from "./FirebaseAuthentication/Register";
+import { Toaster } from "react-hot-toast";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
       <RouterProvider router={router} />
+      <Toaster />
     </AuthProvider>
   </React.StrictMode>
 );

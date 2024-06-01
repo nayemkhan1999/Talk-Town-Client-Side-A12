@@ -1,7 +1,12 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SocialLogin from "./SocialLogin";
+import useAuth from "../CustomHook/useAuth";
+import toast from "react-hot-toast";
+import { TbFidgetSpinner } from "react-icons/tb";
 const Login = () => {
+  const { loginUser, loading, setLoading } = useAuth();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -10,6 +15,18 @@ const Login = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    //Login User
+    loginUser(data?.email, data?.password).then((result) => {
+      setLoading(true);
+      const user = result.user;
+      // console.log(user);
+      if (user) {
+        toast.success("Login Successful");
+      } else {
+        toast.error(error.message);
+      }
+      navigate(location?.state?.from?.pathname || "/");
+    });
   };
   return (
     <div className="averia-serif lg:mx-10 ">
@@ -74,8 +91,15 @@ const Login = () => {
                 </label>
               </div>
               <div className="form-control mt-2">
-                <button className="btn bg-[#66C1D6] text-white text-xl">
-                  Login
+                <button
+                  disabled={loading}
+                  className="btn bg-[#66C1D6] text-white text-xl"
+                >
+                  {loading ? (
+                    <TbFidgetSpinner className="text-2xl text-yellow-600 animate-spin" />
+                  ) : (
+                    "Login"
+                  )}
                 </button>
                 <div className="flex flex-col w-full">
                   <div className="divider divider-neutral">Or Login With</div>

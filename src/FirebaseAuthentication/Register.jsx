@@ -1,19 +1,53 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../CustomHook/useAuth";
 import { TbFidgetSpinner } from "react-icons/tb";
 import SocialLogin from "./SocialLogin";
+import useAxiosPublic from "../CustomHook/useAxiosPublic";
+import toast from "react-hot-toast";
 
+const image_hosting_key = import.meta.env.VITE_IMG_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 const Register = () => {
-  const { registerUser, updateProfileUser, loading, setLoading } = useAuth();
+  const { createUser, UserUpdateProfile, loading, setLoading } = useAuth();
+  const navigate = useNavigate();
+  const axiosPublic = useAxiosPublic();
+  const from = location.state?.from?.pathname || "/";
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
+    createUser(data.email, data.password).then(async (result) => {
+      setLoading(true);
+      // image upload to imgbb and then get an url
+      const fileImg = { image: data.image[0] };
+      console.log(fileImg);
+      const res = await axiosPublic.post(image_hosting_api, fileImg, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      });
+      reset();
+      console.log(res);
+      const registerUser = result.user;
+      const imagePhoto = res.data.data.display_url;
+      console.log(imagePhoto);
+
+      UserUpdateProfile(data.name, imagePhoto)
+        .then(async () => {
+          setLoading(true);
+          navigate(from);
+          toast.success("Register Successful");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
   };
   return (
     <div className="averia-serif lg:mx-10 ">
@@ -39,7 +73,7 @@ const Register = () => {
                 <input
                   type="text"
                   name="name"
-                  {...register("name")}
+                  {...register("name", { required: true })}
                   placeholder="name"
                   className="input input-bordered"
                   required
@@ -57,7 +91,7 @@ const Register = () => {
                 <input
                   type="email"
                   name="email"
-                  {...register("email")}
+                  {...register("email", { required: true })}
                   placeholder="email"
                   className="input input-bordered"
                   required
@@ -74,8 +108,8 @@ const Register = () => {
                 </label>
                 <input
                   type="file"
-                  {...register("image")}
-                  className="file-input file-input-bordered  file-input-accent w-full max-w-xs"
+                  {...register("image", { required: true })}
+                  className="file-input  w-full max-w-xs"
                 />
               </div>
               <div className="form-control">
@@ -85,7 +119,7 @@ const Register = () => {
                 <input
                   type="password"
                   name="password"
-                  {...register("password")}
+                  {...register("password", { required: true })}
                   placeholder="password"
                   className="input input-bordered"
                   required

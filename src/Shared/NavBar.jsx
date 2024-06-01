@@ -3,8 +3,16 @@ import { Link, NavLink } from "react-router-dom";
 import useAuth from "../CustomHook/useAuth";
 
 const NavBar = () => {
-  const { user } = useAuth();
+  const { user, logOutUser } = useAuth();
   const { displayName, photoURL } = user || {};
+
+  const handleLogOut = () => {
+    logOutUser()
+      .then(() => {})
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const link = (
     <>
       <li>
@@ -115,6 +123,7 @@ const NavBar = () => {
               >
                 <div className="w-10 rounded-full">
                   <img
+                    referrerPolicy="no-referrer"
                     alt="Tailwind CSS Navbar component"
                     src={
                       user?.photoURL ||
@@ -134,7 +143,7 @@ const NavBar = () => {
                   <a>Dashboard</a>
                 </li>
                 <li>
-                  <a>Logout</a>
+                  <button onClick={handleLogOut}>LogOut</button>
                 </li>
               </ul>
             </div>
