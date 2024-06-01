@@ -4,7 +4,7 @@ import Footer from "../Shared/Footer";
 
 const Root = () => {
   return (
-    <div>
+    <div className="averia-serif lg:mx-10">
       <NavBar></NavBar>
       <div className="min-h-[calc(100vh-314px)]">
         <Outlet></Outlet>

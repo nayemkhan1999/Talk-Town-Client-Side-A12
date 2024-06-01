@@ -1,7 +1,10 @@
 import { IoNotificationsSharp } from "react-icons/io5";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import useAuth from "../CustomHook/useAuth";
 
 const NavBar = () => {
+  const { user } = useAuth();
+  const { displayName, photoURL } = user || {};
   const link = (
     <>
       <li>
@@ -67,7 +70,7 @@ const NavBar = () => {
             src="https://cdn-icons-png.flaticon.com/128/5529/5529941.png"
             alt=""
           />
-          <h1 className="lg:text-3xl font-bold">
+          <h1 className="lg:text-3xl font-bold ">
             <span className="text-orange-500 lg:text-4xl font-black">T</span>alk
             <span className="text-orange-500 lg:text-4xl font-black">T</span>own
           </h1>
@@ -103,34 +106,43 @@ const NavBar = () => {
               </div>
             </div>
           </div>
-          <div className="dropdown dropdown-end">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle avatar"
-            >
-              <div className="w-10 rounded-full">
-                <img
-                  alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                />
+          {user ? (
+            <div className="dropdown dropdown-end">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle avatar"
+              >
+                <div className="w-10 rounded-full">
+                  <img
+                    alt="Tailwind CSS Navbar component"
+                    src={
+                      user?.photoURL ||
+                      "https://cdn-icons-png.flaticon.com/128/15735/15735369.png"
+                    }
+                  />
+                </div>
               </div>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li>
+                  <a className="justify-between">{user.displayName}</a>
+                </li>
+                <li>
+                  <a>Dashboard</a>
+                </li>
+                <li>
+                  <a>Logout</a>
+                </li>
+              </ul>
             </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-            >
-              <li>
-                <a className="justify-between">User name</a>
-              </li>
-              <li>
-                <a>Dashboard</a>
-              </li>
-              <li>
-                <a>Logout</a>
-              </li>
-            </ul>
-          </div>
+          ) : (
+            <Link to="/login">
+              <button className="btn bg-orange-500 text-white">Join US</button>
+            </Link>
+          )}
         </div>
       </div>
     </div>
