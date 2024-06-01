@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Google Font style */
+
+.averia-serif {
+  font-family: "Averia Serif Libre", serif;
+  font-optical-sizing: auto;
+  font-weight: weight;
+  font-weight: 300;
+  font-style: normal;
+}
