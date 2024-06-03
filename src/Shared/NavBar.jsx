@@ -18,7 +18,9 @@ const NavBar = () => {
       <li>
         <NavLink
           className={({ isActive }) =>
-            isActive ? "text-orange-500" : "text-[#363f4d] "
+            isActive
+              ? "text-orange-500 bg-gray-300 shadow-md font-bold tracking-wide mr-3"
+              : "text-[#363f4d] "
           }
           to="/"
         >
@@ -28,9 +30,23 @@ const NavBar = () => {
       <li>
         <NavLink
           className={({ isActive }) =>
-            isActive ? "text-orange-500" : "text-[#363f4d] "
+            isActive
+              ? "text-orange-500  bg-gray-300 shadow-md font-bold tracking-wide mr-3"
+              : "text-[#363f4d] "
           }
-          to="/"
+          to="/addPost"
+        >
+          Add Post
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          className={({ isActive }) =>
+            isActive
+              ? "text-orange-500  bg-gray-300 shadow-md font-bold tracking-wide"
+              : "text-[#363f4d] "
+          }
+          to="/membership"
         >
           Membership
         </NavLink>
@@ -67,7 +83,7 @@ const NavBar = () => {
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100  rounded-box w-52"
               >
                 {link}
               </ul>
@@ -84,8 +100,8 @@ const NavBar = () => {
           </h1>
         </div>
 
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">{link}</ul>
+        <div className="navbar-center hidden lg:flex lg:mr-[360px] mt-2">
+          <ul className="menu menu-horizontal px-1 ">{link}</ul>
         </div>
         <div className="flex-none">
           <div className="dropdown dropdown-end">
@@ -140,7 +156,9 @@ const NavBar = () => {
                   <a className="justify-between">{user.displayName}</a>
                 </li>
                 <li>
-                  <a>Dashboard</a>
+                  <Link to="/dashboard">
+                    <a>Dashboard</a>
+                  </Link>
                 </li>
                 <li>
                   <button onClick={handleLogOut}>LogOut</button>

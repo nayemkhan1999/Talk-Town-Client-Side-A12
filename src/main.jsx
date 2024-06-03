@@ -9,6 +9,9 @@ import Login from "./FirebaseAuthentication/Login";
 import Error from "./Shared/Error";
 import Register from "./FirebaseAuthentication/Register";
 import { Toaster } from "react-hot-toast";
+import Home from "./Home/Home";
+import Dashboard from "./Dashboard/Dashboard";
+import AddPost from "./Home/AddPost";
 
 const router = createBrowserRouter([
   {
@@ -17,12 +20,24 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       {
+        path: "/",
+        element: <Home />,
+      },
+      {
         path: "login",
         element: <Login />,
       },
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "addPost",
+        element: <AddPost />,
+      },
+      {
+        path: "dashboard",
+        element: <Dashboard />,
       },
     ],
   },
