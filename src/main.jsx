@@ -11,7 +11,10 @@ import Register from "./FirebaseAuthentication/Register";
 import { Toaster } from "react-hot-toast";
 import Home from "./Home/Home";
 import Dashboard from "./Dashboard/Dashboard";
-import AddPost from "./Home/AddPost";
+
+import AddPost from "./Dashboard/User/AddPost/AddPost";
+import MyPost from "./Dashboard/User/MyPost/MyPost";
+import MyProfile from "./Dashboard/User/MyProfile/MyProfile";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +37,14 @@ const router = createBrowserRouter([
       {
         path: "addPost",
         element: <AddPost />,
+      },
+      {
+        path: "myPost",
+        element: <MyPost />,
+      },
+      {
+        path: "myProfile",
+        element: <MyProfile />,
       },
       {
         path: "dashboard",

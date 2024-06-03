@@ -20,7 +20,7 @@ const NavBar = () => {
           className={({ isActive }) =>
             isActive
               ? "text-orange-500 bg-gray-300 shadow-md font-bold tracking-wide mr-3"
-              : "text-[#363f4d] "
+              : "text-[#363f4d] font-bold bg-gray-300 shadow-md tracking-wide mr-3"
           }
           to="/"
         >
@@ -31,20 +31,8 @@ const NavBar = () => {
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "text-orange-500  bg-gray-300 shadow-md font-bold tracking-wide mr-3"
-              : "text-[#363f4d] "
-          }
-          to="/addPost"
-        >
-          Add Post
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          className={({ isActive }) =>
-            isActive
               ? "text-orange-500  bg-gray-300 shadow-md font-bold tracking-wide"
-              : "text-[#363f4d] "
+              : "text-[#363f4d] font-bold bg-gray-300 shadow-md"
           }
           to="/membership"
         >

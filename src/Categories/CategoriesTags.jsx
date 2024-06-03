@@ -12,10 +12,26 @@ import { TbHttpPost } from "react-icons/tb";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 
+import { useEffect, useState } from "react";
+import useAxiosPublic from "../CustomHook/useAxiosPublic";
+import CategoriesPost from "./CategoriesPost";
+
 const CategoriesTags = () => {
+  const axiosPublic = useAxiosPublic();
+  const [get, setGet] = useState([]);
+  const [tabIndex, setTabIndex] = useState(0);
+  // const drinks = menu.filter((item) => item.category === "drinks");
+
+  useEffect(() => {
+    axiosPublic.get("/allPost").then((res) => {
+      setGet(res.data);
+    });
+  }, [axiosPublic]);
+  console.log(get);
+
   return (
     <div className="averia-serif lg:mx-10 mt-2">
-      <Tabs>
+      <Tabs defaultIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
         <TabList className="border-none space-x-10 mx-auto">
           <Tab>
             <div>
@@ -80,7 +96,11 @@ const CategoriesTags = () => {
         </TabList>
 
         <TabPanel>
-          <h2>Any content 1</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {get.map((card) => (
+              <CategoriesPost key={card._id} card={card}></CategoriesPost>
+            ))}
+          </div>
         </TabPanel>
         <TabPanel>
           <h2>Any content 2</h2>
@@ -115,15 +135,3 @@ const CategoriesTags = () => {
 };
 
 export default CategoriesTags;
-
-//
-//
-//
-//
-//
-//     {
-//       label: "Threads",
-//       icon: BsThreads,
-//       description: "This content is in a spooky Threads!",
-//     },
-//   ];

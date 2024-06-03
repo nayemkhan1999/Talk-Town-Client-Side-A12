@@ -1,9 +1,10 @@
 import { useForm } from "react-hook-form";
-import Swal from "sweetalert2";
 import { useState } from "react";
 import { ImSpinner6 } from "react-icons/im";
-import useAxiosPublic from "../CustomHook/useAxiosPublic";
-import useAuth from "../CustomHook/useAuth";
+import toast from "react-hot-toast";
+
+import useAxiosPublic from "../../../CustomHook/useAxiosPublic";
+import useAuth from "../../../CustomHook/useAuth";
 
 const imagePostKey = import.meta.env.VITE_IMG_ADD_POST_KEY;
 const imagePostApi = `https://api.imgbb.com/1/upload?key=${imagePostKey}`;
@@ -12,7 +13,6 @@ const AddPost = () => {
   const axiosPublic = useAxiosPublic();
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-
   const onSubmit = async (data) => {
     setIsLoading(!isLoading);
     console.log(data);
@@ -47,13 +47,7 @@ const AddPost = () => {
       if (room.data.insertedId) {
         // show success popup
         reset();
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Thank you! Your room is added successful",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        toast.success("Your Post Has Successful");
         setIsLoading(false);
       }
     }
