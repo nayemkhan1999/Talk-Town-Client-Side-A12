@@ -5,51 +5,37 @@ import toast from "react-hot-toast";
 
 import useAxiosPublic from "../../../CustomHook/useAxiosPublic";
 import useAuth from "../../../CustomHook/useAuth";
+import TimeInput from "react-time-picker/dist/TimeInput";
 
-const imagePostKey = import.meta.env.VITE_IMG_ADD_POST_KEY;
-const imagePostApi = `https://api.imgbb.com/1/upload?key=${imagePostKey}`;
 const AddPost = () => {
   const { register, handleSubmit, reset } = useForm();
   const axiosPublic = useAxiosPublic();
   const { user } = useAuth();
+  // console.log(user);
   const [isLoading, setIsLoading] = useState(false);
   const onSubmit = async (data) => {
     setIsLoading(!isLoading);
     console.log(data);
 
-    // image upload to imgbb and then get an url
-    const fileImg = { image: data.image[0] };
-    console.log(fileImg);
-    const res = await axiosPublic.post(imagePostApi, fileImg, {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    });
-    reset();
-    console.log(res);
-    if (res.data.success) {
-      // now send the menu item data to the server with the image url
-      const addRoom = {
-        name: data.name,
-        email: user.email,
-        Tags: data.Tags,
-        PostTitle: data.PostTitle,
-        authorImage: data.authorImage,
-        description: data.description,
-        UpVote: data.UpVote,
-        DownVote: data.DownVote,
-        date: data.date,
-      };
-      console.log(addRoom);
-      //
-      const room = await axiosPublic.post("/addedPost", addRoom);
-      console.log(room.data);
-      if (room.data.insertedId) {
-        // show success popup
-        reset();
-        toast.success("Your Post Has Successful");
-        setIsLoading(false);
-      }
+    const addRoom = {
+      name: user.displayName,
+      email: user.email,
+      Tags: data.Tags,
+      PostTitle: data.PostTitle,
+      image: user.photoURL,
+      description: data.description,
+      UpVote: data.UpVote,
+      DownVote: data.DownVote,
+      date: data.date,
+    };
+    console.log(addRoom);
+
+    const room = await axiosPublic.post("/addedPost", addRoom);
+    console.log(room.data);
+    if (room.data.insertedId) {
+      reset();
+      toast.success("Your Post Has Successful");
+      setIsLoading(false);
     }
   };
 
@@ -67,6 +53,8 @@ const AddPost = () => {
               <input
                 type="text"
                 placeholder="Author Name"
+                defaultValue={user?.displayName}
+                readOnly
                 {...register("name", { required: true })}
                 required
                 className="input input-bordered w-full"
@@ -94,7 +82,7 @@ const AddPost = () => {
             {/* Select your Tag */}
             <div className="form-control w-full ">
               <label className="label">
-                <span className="label-text">Select your Tag</span>
+                <span className="label-text">Select Tag</span>
               </label>
 
               <select
@@ -161,42 +149,32 @@ const AddPost = () => {
           </div>
           {/* Room Image And Booking Date */}
           <div className="flex gap-6 my-4">
-            {/* Image */}
-            <div className="form-control  w-full  ">
+            <div className="form-control w-full">
               <label className="label">
-                <span className="label-text">Author Image</span>
+                <span className="label-text">description</span>
               </label>
-              <input
-                {...register("image", { required: true })}
-                type="file"
-                name="image"
-                className="file-input w-full max-w-xs"
-              />
+              <textarea
+                {...register("description")}
+                className="textarea textarea-bordered h-24"
+                placeholder="description"
+              ></textarea>
             </div>
             {/* Booking Date */}
             <div className="form-control w-full ">
               <label className="label">
-                <span className="label-text">Dates & Time</span>
+                <span className="label-text">Post Time</span>
               </label>
               <input
-                type="date"
                 placeholder="Date & Time"
+                defaultValue={TimeInput}
                 {...register("date", { required: true })}
-                className="input input-bordered w-full  text-[#d8b15d]"
+                aria-label="Time"
+                type="time"
+                className="input input-bordered w-full  text-black font-bold"
               />
             </div>
           </div>
 
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">description</span>
-            </label>
-            <textarea
-              {...register("description")}
-              className="textarea textarea-bordered h-24"
-              placeholder="description"
-            ></textarea>
-          </div>
           <button
             // onClick={handleClick}
             // disabled={isLoading}

@@ -9,17 +9,32 @@ const MyPost = () => {
   const { user } = useAuth();
 
   useEffect(() => {
-    axiosPublic.get(`/allPost/${user.email}`).then((res) => {
+    axiosPublic.get(`/allPost/${user?.email}`).then((res) => {
       setData(res.data);
     });
-  }, [axiosPublic, user.email]);
+  }, [axiosPublic, user?.email]);
   console.log(data);
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {data.map((Fz) => (
-          <ShowMyPost key={Fz._id} Fz={Fz}></ShowMyPost>
-        ))}
+      <div className="overflow-x-auto">
+        <table className="table ">
+          {/* head */}
+          <thead>
+            <tr>
+              <th></th>
+              <th></th>
+              <th>Post Title</th>
+              <th>Number of votes</th>
+              <th>Comment Button</th>
+              <th>Delete Button</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((Fz) => (
+              <ShowMyPost key={Fz._id} Fz={Fz}></ShowMyPost>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

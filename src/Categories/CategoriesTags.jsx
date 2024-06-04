@@ -11,7 +11,7 @@ import { RiEnglishInput } from "react-icons/ri";
 import { TbHttpPost } from "react-icons/tb";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-
+import "./Pagination.css";
 import { useEffect, useState } from "react";
 import useAxiosPublic from "../CustomHook/useAxiosPublic";
 import CategoriesPost from "./CategoriesPost";
@@ -20,14 +20,32 @@ const CategoriesTags = () => {
   const axiosPublic = useAxiosPublic();
   const [get, setGet] = useState([]);
   const [tabIndex, setTabIndex] = useState(0);
-  // const drinks = menu.filter((item) => item.category === "drinks");
 
   useEffect(() => {
     axiosPublic.get("/allPost").then((res) => {
       setGet(res.data);
     });
   }, [axiosPublic]);
-  console.log(get);
+  // console.log(get);
+
+  // pagination
+  const [itemPerPage, setItemPerPage] = useState(5);
+  const numberOfPages = Math.ceil(get.length / itemPerPage);
+  const pages = [...Array(numberOfPages).keys()];
+  console.log(pages);
+
+  // pagination
+
+  const Share = get.filter((item) => item.Tags === "Share");
+  const Conversations = get.filter((item) => item.Tags === "Conversations");
+  const Engagement = get.filter((item) => item.Tags === "Engagement");
+  const Messaging = get.filter((item) => item.Tags === "Messaging");
+  const Posts = get.filter((item) => item.Tags === "Posts");
+  const Comments = get.filter((item) => item.Tags === "Comments");
+  const Discussions = get.filter((item) => item.Tags === "Discussions");
+  const Community = get.filter((item) => item.Tags === "Community");
+  const Topics = get.filter((item) => item.Tags === "Topics");
+  const Threads = get.filter((item) => item.Tags === "Threads");
 
   return (
     <div className="averia-serif lg:mx-10 mt-2">
@@ -96,40 +114,84 @@ const CategoriesTags = () => {
         </TabList>
 
         <TabPanel>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {get.map((card) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
+            {Share.map((card) => (
               <CategoriesPost key={card._id} card={card}></CategoriesPost>
             ))}
           </div>
         </TabPanel>
         <TabPanel>
-          <h2>Any content 2</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
+            {Conversations.map((card) => (
+              <CategoriesPost key={card._id} card={card}></CategoriesPost>
+            ))}
+          </div>
         </TabPanel>
         <TabPanel>
-          <h2>Any content 3</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
+            {Engagement.map((card) => (
+              <CategoriesPost key={card._id} card={card}></CategoriesPost>
+            ))}
+          </div>
         </TabPanel>
         <TabPanel>
-          <h2>Any content 4</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
+            {Messaging.map((card) => (
+              <CategoriesPost key={card._id} card={card}></CategoriesPost>
+            ))}
+          </div>
         </TabPanel>
         <TabPanel>
-          <h2>Any content 5</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
+            {Posts.map((card) => (
+              <CategoriesPost key={card._id} card={card}></CategoriesPost>
+            ))}
+          </div>
         </TabPanel>
         <TabPanel>
-          <h2>Any content 6</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
+            {Comments.map((card) => (
+              <CategoriesPost key={card._id} card={card}></CategoriesPost>
+            ))}
+          </div>
         </TabPanel>
         <TabPanel>
-          <h2>Any content 7</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
+            {Discussions.map((card) => (
+              <CategoriesPost key={card._id} card={card}></CategoriesPost>
+            ))}
+          </div>
         </TabPanel>
         <TabPanel>
-          <h2>Any content 8</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
+            {Community.map((card) => (
+              <CategoriesPost key={card._id} card={card}></CategoriesPost>
+            ))}
+          </div>
         </TabPanel>
         <TabPanel>
-          <h2>Any content 9</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
+            {Topics.map((card) => (
+              <CategoriesPost key={card._id} card={card}></CategoriesPost>
+            ))}
+          </div>
         </TabPanel>
         <TabPanel>
-          <h2>Any content 10</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
+            {Threads.map((card) => (
+              <CategoriesPost key={card._id} card={card}></CategoriesPost>
+            ))}
+          </div>
         </TabPanel>
       </Tabs>
+      {/* Pagination */}
+      <div className="pagination">
+        {pages.map((page) => (
+          <button className="btn" key={page}>
+            {page}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };

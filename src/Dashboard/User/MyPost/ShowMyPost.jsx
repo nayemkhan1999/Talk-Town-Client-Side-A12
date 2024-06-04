@@ -1,23 +1,55 @@
+import { AiOutlineComment } from "react-icons/ai";
+import Swal from "sweetalert2";
+import { RiDeleteBin6Fill } from "react-icons/ri";
+import useAxiosPublic from "../../../CustomHook/useAxiosPublic";
+
 const ShowMyPost = ({ Fz }) => {
-  const { name, Tags } = Fz;
+  const { PostTitle, UpVote, _id } = Fz;
+  const axiosPublic = useAxiosPublic();
+  const handleDelete = (_id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosPublic.delete(`/allPost/${_id}`).then((res) => {
+          if (res.data.deletedCount > 0) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your Post has been deleted.",
+              icon: "success",
+            });
+          }
+        });
+      }
+      console.log(result);
+    });
+  };
   return (
-    <div>
-      <div className="card card-compact w-96 bg-base-100 shadow-xl">
-        <figure>
-          <img
-            src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-            alt="Shoes"
-          />
-        </figure>
-        <div className="card-body">
-          <h2 className="card-title">{Tags}</h2>
-          <p>{name}</p>
-          <div className="card-actions justify-end">
-            <button className="btn btn-primary">Buy Now</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <>
+      <tr>
+        <td></td>
+        <td></td>
+        <td>{PostTitle}</td>
+        <td>{UpVote}</td>
+        <th>
+          <button className="btn btn-ghost btn-sm">
+            <AiOutlineComment size={24} className="text-orange-500" />
+            Comments
+          </button>
+        </th>
+        <th>
+          <button onClick={() => handleDelete(_id)} className="btn btn-md">
+            <RiDeleteBin6Fill className="text-red-600" size={24} />
+          </button>
+        </th>
+      </tr>
+    </>
   );
 };
 

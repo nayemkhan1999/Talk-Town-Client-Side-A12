@@ -1,18 +1,18 @@
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import loadingImg from "../../src/assets/54906-loading-animation-bored-hand.gif";
 import useAuth from "../CustomHook/useAuth";
+
 const PrivetRoute = ({ children }) => {
   const { user, loading } = useAuth();
-  const navigate = useNavigate();
   const location = useLocation();
 
   if (loading) {
-    return <img className=" mx-auto pt-20 " src={loadingImg} alt="" />;
+    return <img className="mx-auto w-[100vh]" src={loadingImg} alt="" />;
   }
   if (user) {
     return children;
   }
-  return <Navigate to="/login" state={{ from: location }} replace></Navigate>;
+  <Navigate to="/login" state={location.pathname} replace={true}></Navigate>;
 };
 
 export default PrivetRoute;
