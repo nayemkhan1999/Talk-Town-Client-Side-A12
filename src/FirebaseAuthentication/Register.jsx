@@ -141,7 +141,10 @@ const Register = () => {
                 className="btn bg-[#C98BD2] text-white text-lg font-bold"
               >
                 {loading ? (
-                  <TbFidgetSpinner className="text-2xl text-yellow-600 animate-spin" />
+                  <span className="flex gap-1">
+                    <TbFidgetSpinner className="text-2xl text-yellow-600 animate-spin" />
+                    <p className="text-base text-gray-600">Loading...</p>
+                  </span>
                 ) : (
                   " Sign up now"
                 )}

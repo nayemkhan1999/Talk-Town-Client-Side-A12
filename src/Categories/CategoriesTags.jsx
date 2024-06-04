@@ -29,7 +29,8 @@ const CategoriesTags = () => {
   // console.log(get);
 
   // pagination
-  const [itemPerPage, setItemPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemPerPage = 5;
   const numberOfPages = Math.ceil(get.length / itemPerPage);
   const pages = [...Array(numberOfPages).keys()];
   console.log(pages);
@@ -184,10 +185,15 @@ const CategoriesTags = () => {
           </div>
         </TabPanel>
       </Tabs>
-      {/* Pagination */}
+      {/* Pagination Start Hare */}
       <div className="pagination">
+        <p className="text-xs">Current Page: {currentPage}</p>
         {pages.map((page) => (
-          <button className="btn" key={page}>
+          <button
+            className={currentPage === page && "selected"}
+            onClick={() => setCurrentPage(page)}
+            key={page}
+          >
             {page}
           </button>
         ))}

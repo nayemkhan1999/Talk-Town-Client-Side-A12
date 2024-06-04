@@ -4,6 +4,7 @@ import SocialLogin from "./SocialLogin";
 import useAuth from "../CustomHook/useAuth";
 import toast from "react-hot-toast";
 import { TbFidgetSpinner } from "react-icons/tb";
+import { space } from "postcss/lib/list";
 const Login = () => {
   const { loginUser, loading, setLoading } = useAuth();
   const navigate = useNavigate();
@@ -96,7 +97,10 @@ const Login = () => {
                   className="btn bg-[#66C1D6] text-white text-xl"
                 >
                   {loading ? (
-                    <TbFidgetSpinner className="text-2xl text-yellow-600 animate-spin" />
+                    <span className="flex gap-1">
+                      <TbFidgetSpinner className="text-2xl text-yellow-600 animate-spin" />
+                      <p className="text-base text-gray-600">Loading...</p>
+                    </span>
                   ) : (
                     "Login"
                   )}
