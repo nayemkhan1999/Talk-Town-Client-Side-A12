@@ -176,12 +176,14 @@ const AddPost = () => {
           </div>
 
           <button
-            // onClick={handleClick}
-            // disabled={isLoading}
+            disabled={isLoading}
             className="btn bg-slate-300 text-orange-500 font-bold text-lg w-full mt-4 "
           >
             {isLoading ? (
-              <ImSpinner6 className="animate-spin text-3xl text-orange-500" />
+              <span className="flex gap-1">
+                <ImSpinner6 className="text-2xl text-orange-500 animate-spin" />
+                <p className="text-base text-gray-600">Loading...</p>
+              </span>
             ) : (
               "Add Post"
             )}

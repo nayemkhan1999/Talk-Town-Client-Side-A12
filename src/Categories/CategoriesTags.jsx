@@ -11,32 +11,28 @@ import { RiEnglishInput } from "react-icons/ri";
 import { TbHttpPost } from "react-icons/tb";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import "./Pagination.css";
 import { useEffect, useState } from "react";
 import useAxiosPublic from "../CustomHook/useAxiosPublic";
 import CategoriesPost from "./CategoriesPost";
+import Pagination from "./Pagination";
 
 const CategoriesTags = () => {
   const axiosPublic = useAxiosPublic();
+  // eslint-disable-next-line no-unused-vars
   const [get, setGet] = useState([]);
+  const [totalPosts, setTotalPosts] = useState(0);
   const [tabIndex, setTabIndex] = useState(0);
 
+  //===================State of Pagination End=====================
   useEffect(() => {
     axiosPublic.get("/allPost").then((res) => {
-      setGet(res.data);
+      setGet(res.data.posts);
+      setTotalPosts(res.data.totalPosts);
     });
   }, [axiosPublic]);
-  // console.log(get);
+  console.log(get);
 
-  // pagination
-  const [currentPage, setCurrentPage] = useState(0);
-  const itemPerPage = 5;
-  const numberOfPages = Math.ceil(get.length / itemPerPage);
-  const pages = [...Array(numberOfPages).keys()];
-  console.log(pages);
-
-  // pagination
-
+  //==========================================
   const Share = get.filter((item) => item.Tags === "Share");
   const Conversations = get.filter((item) => item.Tags === "Conversations");
   const Engagement = get.filter((item) => item.Tags === "Engagement");
@@ -47,7 +43,7 @@ const CategoriesTags = () => {
   const Community = get.filter((item) => item.Tags === "Community");
   const Topics = get.filter((item) => item.Tags === "Topics");
   const Threads = get.filter((item) => item.Tags === "Threads");
-
+  //==========================================
   return (
     <div className="averia-serif lg:mx-10 mt-2">
       <Tabs defaultIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
@@ -185,19 +181,7 @@ const CategoriesTags = () => {
           </div>
         </TabPanel>
       </Tabs>
-      {/* Pagination Start Hare */}
-      <div className="pagination">
-        <p className="text-xs">Current Page: {currentPage}</p>
-        {pages.map((page) => (
-          <button
-            className={currentPage === page && "selected"}
-            onClick={() => setCurrentPage(page)}
-            key={page}
-          >
-            {page}
-          </button>
-        ))}
-      </div>
+      <Pagination></Pagination>
     </div>
   );
 };

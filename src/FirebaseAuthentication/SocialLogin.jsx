@@ -10,19 +10,22 @@ const SocialLogin = () => {
   const navigate = useNavigate();
   //Google Login User
   const handleSocialUser = () => {
-    googleLogin().then((result) => {
-      // console.log(result.user);
-      const userInfo = {
-        name: result?.user?.displayName,
-        email: result?.user?.email,
-      };
-      axiosPublic.post("/users", userInfo).then((res) => {
-        if (res.data.insertedId) {
-          // console.log(res.data);
-        }
-        toast.success("Google Login Successful");
-        navigate(location?.state || "/");
+    googleLogin().then(async (result) => {
+      //=============Admin Role Play================
+      const role = "User";
+      const email = result.user.email;
+      const name = result.user.displayName;
+      const image = result.user.photoURL;
+      const allUser = { role, email, name, image };
+      console.log(name, email, "50 number line");
+      const results = await axiosPublic.post("/users", allUser, {
+        withCredentials: true,
       });
+      console.log(results.data);
+      toast.success("Google Login Successful");
+      navigate(location?.state || "/");
+
+      //=============Admin Role Play================
     });
   };
 

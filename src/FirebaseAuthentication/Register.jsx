@@ -9,7 +9,8 @@ import toast from "react-hot-toast";
 const image_hosting_key = import.meta.env.VITE_IMG_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 const Register = () => {
-  const { createUser, UserUpdateProfile, loading, setLoading } = useAuth();
+  const { user, createUser, UserUpdateProfile, loading, setLoading } =
+    useAuth();
   const navigate = useNavigate();
   const axiosPublic = useAxiosPublic();
   const from = location.state?.from?.pathname || "/";
@@ -32,8 +33,9 @@ const Register = () => {
           "content-type": "multipart/form-data",
         },
       });
-      reset();
+
       console.log(res);
+
       const registerUser = result.user;
       const imagePhoto = res.data.data.display_url;
       console.log(imagePhoto);
@@ -41,14 +43,29 @@ const Register = () => {
       UserUpdateProfile(data.name, imagePhoto)
         .then(async () => {
           setLoading(true);
+          //=============Admin Role Play================
+          const role = "User";
+          const email = data.email;
+          const name = data.name;
+          const image = imagePhoto;
+          const allUser = { role, email, name, image };
+          console.log(name, email, "50 number line");
+          const results = await axiosPublic.post("/users", allUser, {
+            withCredentials: true,
+          });
+          console.log(results.data);
+
+          //=============Admin Role Plays================
           navigate(from);
           toast.success("Register Successful");
+          reset();
         })
         .catch((error) => {
           console.log(error);
         });
     });
   };
+
   return (
     <div className="averia-serif lg:mx-10 ">
       <div className="hero min-h-screen bg-base-200">

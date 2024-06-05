@@ -16,6 +16,8 @@ import AddPost from "./Dashboard/User/AddPost/AddPost";
 import MyPost from "./Dashboard/User/MyPost/MyPost";
 import MyProfile from "./Dashboard/User/MyProfile/MyProfile";
 import PrivetRoute from "./AllRoutes/PrivetRoute";
+import AdminProfile from "./Dashboard/Admin/AdminProfile/AdminProfile";
+import ManageUser from "./Dashboard/Admin/ManageUser/ManageUser";
 
 const router = createBrowserRouter([
   {
@@ -53,13 +55,33 @@ const router = createBrowserRouter([
       },
       {
         path: "myProfile",
-        element: <MyProfile />,
+        element: (
+          <PrivetRoute>
+            <MyProfile />
+          </PrivetRoute>
+        ),
       },
       {
         path: "dashboard",
         element: (
           <PrivetRoute>
             <Dashboard />
+          </PrivetRoute>
+        ),
+      },
+      {
+        path: "adminProfile",
+        element: (
+          <PrivetRoute>
+            <AdminProfile />
+          </PrivetRoute>
+        ),
+      },
+      {
+        path: "manageUser",
+        element: (
+          <PrivetRoute>
+            <ManageUser />
           </PrivetRoute>
         ),
       },
