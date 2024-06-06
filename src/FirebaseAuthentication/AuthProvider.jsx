@@ -9,9 +9,11 @@ import {
 import auth from "../../firebase.config";
 import { createContext, useEffect, useState } from "react";
 import { GoogleAuthProvider } from "firebase/auth";
+import useAxiosPublic from "../CustomHook/useAxiosPublic";
 
 export const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
+  const axiosPublic = useAxiosPublic();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   // console.log(user, "14 number line");
@@ -49,12 +51,24 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unSubsCribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      if (currentUser) {
+        // =======================Jwt..jsonwebtoken start now======================
+        const authInfo = { email: currentUser.email };
+        axiosPublic.post("/jwt", authInfo).then((res) => {
+          if (res.data.token) {
+            localStorage.setItem("access-token", res.data.token);
+          }
+        });
+      } else {
+        localStorage.removeItem("access-token");
+        // =================jwt...jsonwebtoken end=====================
+      }
       setLoading(false);
     });
     return () => {
       unSubsCribe();
     };
-  }, []);
+  }, [axiosPublic]);
   const allValue = {
     createUser,
     user,

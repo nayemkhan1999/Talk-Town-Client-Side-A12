@@ -26,6 +26,7 @@ const ManageUser = () => {
               <th>User image</th>
               <th>User name</th>
               <th>User email</th>
+              <th>Role</th>
               <th>Make admin</th>
               <th>Membership</th>
               <th></th>

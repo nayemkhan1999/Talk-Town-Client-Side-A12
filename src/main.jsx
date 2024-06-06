@@ -18,6 +18,7 @@ import MyProfile from "./Dashboard/User/MyProfile/MyProfile";
 import PrivetRoute from "./AllRoutes/PrivetRoute";
 import AdminProfile from "./Dashboard/Admin/AdminProfile/AdminProfile";
 import ManageUser from "./Dashboard/Admin/ManageUser/ManageUser";
+import MemberShip from "./Shared/MemberShip";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/membership",
+        element: <MemberShip />,
       },
       {
         path: "login",

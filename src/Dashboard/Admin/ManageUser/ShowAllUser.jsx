@@ -1,5 +1,36 @@
+import Swal from "sweetalert2";
+import useAxiosPublic from "../../../CustomHook/useAxiosPublic";
 const ShowAllUser = ({ hero }) => {
   const { name, email, image, role } = hero;
+  const axiosPublic = useAxiosPublic();
+  const handleClick = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to make him an Admin?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: " #43CA36",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Update Role",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const changeRole = "Admin";
+        const result = await axiosPublic.patch(
+          `/userRoleChange/${email}`,
+          { changeRole },
+          { withCredentials: true }
+        );
+        console.log(result.data);
+        if (result.data.modifiedCount > 0) {
+          Swal.fire({
+            title: "Updated!",
+            text: "Your role has been Updated!",
+            icon: "success",
+          });
+        }
+      }
+    });
+  };
 
   return (
     <>
@@ -15,17 +46,20 @@ const ShowAllUser = ({ hero }) => {
                 />
               </div>
             </div>
-            <div>
-              <div className="font-black uppercase text-orange-400 tracking-wide">
-                {role}
-              </div>
-            </div>
           </div>
         </td>
         <td>{name}</td>
         <td>{email}</td>
+        <td className="font-black uppercase text-green-600 tracking-wide">
+          {role}
+        </td>
         <th>
-          <button className="btn btn-ghost btn-xs">details</button>
+          <button
+            onClick={handleClick}
+            className="btn btn-ghost btn-xs text-xs bg-green-100 "
+          >
+            Make an Admin
+          </button>
         </th>
         <th>
           <button className="btn btn-ghost btn-xs">details</button>
