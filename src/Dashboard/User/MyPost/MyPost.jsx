@@ -16,11 +16,12 @@ const MyPost = () => {
   console.log(data);
   return (
     <div>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto mt-5">
         <table className="table ">
           {/* head */}
           <thead>
             <tr>
+              <th></th>
               <th></th>
               <th></th>
               <th>Post Title</th>

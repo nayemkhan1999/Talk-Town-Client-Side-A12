@@ -18,7 +18,8 @@ import MyProfile from "./Dashboard/User/MyProfile/MyProfile";
 import PrivetRoute from "./AllRoutes/PrivetRoute";
 import AdminProfile from "./Dashboard/Admin/AdminProfile/AdminProfile";
 import ManageUser from "./Dashboard/Admin/ManageUser/ManageUser";
-import MemberShip from "./Shared/MemberShip";
+import MemberShip from "./Shared/MemberShip/MemberShip";
+import PaymentMethod from "../src/Shared/PaymentMethod/PaymentMethod";
 
 const router = createBrowserRouter([
   {
@@ -32,8 +33,21 @@ const router = createBrowserRouter([
       },
       {
         path: "/membership",
-        element: <MemberShip />,
+        element: (
+          <PrivetRoute>
+            <MemberShip />
+          </PrivetRoute>
+        ),
       },
+      {
+        path: "/paymentMethod",
+        element: (
+          <PrivetRoute>
+            <PaymentMethod />
+          </PrivetRoute>
+        ),
+      },
+
       {
         path: "login",
         element: <Login />,

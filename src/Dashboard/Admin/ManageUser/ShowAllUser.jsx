@@ -2,6 +2,7 @@ import Swal from "sweetalert2";
 import useAxiosPublic from "../../../CustomHook/useAxiosPublic";
 const ShowAllUser = ({ hero }) => {
   const { name, email, image, role } = hero;
+
   const axiosPublic = useAxiosPublic();
   const handleClick = () => {
     Swal.fire({
@@ -54,15 +55,25 @@ const ShowAllUser = ({ hero }) => {
           {role}
         </td>
         <th>
-          <button
-            onClick={handleClick}
-            className="btn btn-ghost btn-xs text-xs bg-green-100 "
-          >
-            Make an Admin
-          </button>
+          {hero.role === "Admin" ? (
+            <button
+              disabled
+              onClick={handleClick}
+              className="btn btn-ghost btn-xs text-xs bg-green-100 :"
+            >
+              Make an Admin
+            </button>
+          ) : (
+            <button
+              onClick={handleClick}
+              className="btn btn-ghost btn-xs text-xs bg-green-100 :"
+            >
+              Make an Admin
+            </button>
+          )}
         </th>
         <th>
-          <button className="btn btn-ghost btn-xs">details</button>
+          <button className="btn btn-ghost btn-xs">Subscription</button>
         </th>
       </tr>
     </>

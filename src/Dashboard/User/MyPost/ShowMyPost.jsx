@@ -35,6 +35,7 @@ const ShowMyPost = ({ Fz }) => {
       <tr>
         <td></td>
         <td></td>
+        <td></td>
         <td>{PostTitle}</td>
         <td>{UpVote}</td>
         <th>

@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.0.4",
+    "@stripe/react-stripe-js": "^2.7.1",
+    "@stripe/stripe-js": "^3.5.0",
     "@tanstack/react-query": "^5.40.0",
     "firebase": "^10.12.2",
     "react": "^18.2.0",
@@ -22,7 +24,8 @@
     "react-router-dom": "^6.23.1",
     "react-sweetalert2": "^0.6.0",
     "react-tabs": "^6.0.2",
-    "react-time-picker": "^7.0.0"
+    "react-time-picker": "^7.0.0",
+    "stripe": "^15.10.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

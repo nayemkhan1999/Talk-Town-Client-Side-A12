@@ -5,14 +5,13 @@ import {
   MdAdminPanelSettings,
   MdLocalActivity,
   MdManageAccounts,
-  MdOutlineAdminPanelSettings,
   MdPostAdd,
 } from "react-icons/md";
-import { NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import useAxiosPublic from "../CustomHook/useAxiosPublic";
 import useAuth from "../CustomHook/useAuth";
 import { useState } from "react";
-import { TfiAnnouncement } from "react-icons/tfi";
+
 import { GrAnnounce } from "react-icons/gr";
 // import useCart from "../hooks/useCart";
 
@@ -30,7 +29,7 @@ const Dashboard = () => {
     <div className="averia-serif lg:mx-10 ">
       <div className="flex">
         {/* dashboard side bar */}
-        <div className="w-64 min-h-screen   bg-orange-400">
+        <div className="w-64 min-h-screen  bg-gray-300 shadow-xl">
           {/* ==========================Admin Role Play=============================== */}
 
           {role === "Admin" && (
