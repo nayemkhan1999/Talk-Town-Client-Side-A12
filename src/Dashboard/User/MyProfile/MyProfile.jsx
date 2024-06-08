@@ -1,9 +1,13 @@
+import { Helmet } from "react-helmet";
 import useAuth from "../../../CustomHook/useAuth";
 
 const MyProfile = () => {
   const { user } = useAuth();
   return (
     <div>
+      <Helmet>
+        <title>Talk Town || My Profile</title>
+      </Helmet>
       <div className="max-w-md p-8 sm:flex sm:space-x-6 dark:bg-gray-50 dark:text-gray-800 shadow-lg rounded-lg border mx-auto mt-8">
         <div className="flex-shrink-0 w-full mb-6 h-44 sm:h-32 sm:w-32 sm:mb-0">
           <img

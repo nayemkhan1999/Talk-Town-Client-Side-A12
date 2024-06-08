@@ -7,32 +7,48 @@ import {
   MdManageAccounts,
   MdPostAdd,
 } from "react-icons/md";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import useAxiosPublic from "../CustomHook/useAxiosPublic";
 import useAuth from "../CustomHook/useAuth";
-import { useState } from "react";
+// import { useState } from "react";
 
 import { GrAnnounce } from "react-icons/gr";
+import { Helmet } from "react-helmet";
+import { useQuery } from "@tanstack/react-query";
 // import useCart from "../hooks/useCart";
 
 const Dashboard = () => {
   const axiosPublic = useAxiosPublic();
   const { user } = useAuth();
-  const [role, setRole] = useState();
+  // const [role, setRole] = useState();
 
-  axiosPublic.get(`/Role/${user?.email}`).then((res) => {
-    console.log(res.data, "14 number line");
-    setRole(res.data.role);
+  // axiosPublic.get(`/Role/${user?.email}`).then((res) => {
+  //   console.log(res.data, "14 number line");
+  //   setRole(res.data.role);
+  // });
+  // console.log(role);
+  // =================
+  const { refetch, data: UserRole = [] } = useQuery({
+    queryKey: ["userRole"],
+    queryFn: async () => {
+      const result = await axiosPublic.get(`/Role/${user?.email}`, {
+        withCredentials: true,
+      });
+      return result?.data?.role;
+    },
   });
-  console.log(role);
+
   return (
     <div className="averia-serif lg:mx-10 ">
+      <Helmet>
+        <title>Talk Town || Dashboard</title>
+      </Helmet>
       <div className="flex">
         {/* dashboard side bar */}
         <div className="w-64 min-h-screen  bg-gray-300 shadow-xl">
           {/* ==========================Admin Role Play=============================== */}
 
-          {role === "Admin" && (
+          {UserRole === "Admin" && (
             <ul className="menu p-4">
               <>
                 <li>
@@ -78,7 +94,7 @@ const Dashboard = () => {
             </ul>
           )}
           {/* =======================User Role Play======================== */}
-          {role === "User" && (
+          {UserRole === "User" && (
             <ul className="menu p-4">
               <>
                 <li>

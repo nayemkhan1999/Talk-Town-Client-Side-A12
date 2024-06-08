@@ -1,8 +1,12 @@
+import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 
 const MemberShip = () => {
   return (
     <div>
+      <Helmet>
+        <title>Talk Town || MemberShip</title>
+      </Helmet>
       <section className="py-10 dark:bg-gray-100 dark:text-gray-800">
         <div className="container px-4 mx-auto">
           <div className="max-w-2xl mx-auto mb-16 text-center">

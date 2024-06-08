@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import useAxiosPublic from "../../../CustomHook/useAxiosPublic";
 import useAuth from "../../../CustomHook/useAuth";
 import TimeInput from "react-time-picker/dist/TimeInput";
+import { Helmet } from "react-helmet";
 
 const AddPost = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -15,7 +16,6 @@ const AddPost = () => {
   const [isLoading, setIsLoading] = useState(false);
   const onSubmit = async (data) => {
     setIsLoading(!isLoading);
-    console.log(data);
 
     const addRoom = {
       name: user.displayName,
@@ -28,10 +28,9 @@ const AddPost = () => {
       DownVote: data.DownVote,
       date: data.date,
     };
-    console.log(addRoom);
 
     const room = await axiosPublic.post("/addedPost", addRoom);
-    console.log(room.data);
+
     if (room.data.insertedId) {
       reset();
       toast.success("Your Post Has Successful");
@@ -41,6 +40,9 @@ const AddPost = () => {
 
   return (
     <div className="lg:mx-10 mx-2 averia-serif">
+      <Helmet>
+        <title>Talk Town || Add Post</title>
+      </Helmet>
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* Author name & email */}

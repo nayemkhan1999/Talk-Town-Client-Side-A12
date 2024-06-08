@@ -17,11 +17,11 @@ const SocialLogin = () => {
       const name = result.user.displayName;
       const image = result.user.photoURL;
       const allUser = { role, email, name, image };
-      console.log(name, email, "50 number line");
+
       const results = await axiosPublic.post("/users", allUser, {
         withCredentials: true,
       });
-      console.log(results.data);
+
       toast.success("Google Login Successful");
       navigate(location?.state || "/");
 

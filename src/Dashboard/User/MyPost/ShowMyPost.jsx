@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import useAxiosPublic from "../../../CustomHook/useAxiosPublic";
 
-const ShowMyPost = ({ Fz }) => {
+const ShowMyPost = ({ Fz, refetch }) => {
   const { PostTitle, UpVote, _id } = Fz;
   const axiosPublic = useAxiosPublic();
   const handleDelete = (_id) => {
@@ -19,6 +19,7 @@ const ShowMyPost = ({ Fz }) => {
       if (result.isConfirmed) {
         axiosPublic.delete(`/allPost/${_id}`).then((res) => {
           if (res.data.deletedCount > 0) {
+            refetch();
             Swal.fire({
               title: "Deleted!",
               text: "Your Post has been deleted.",

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useAuth from "../../../CustomHook/useAuth";
 import useAxiosPublic from "../../../CustomHook/useAxiosPublic";
 import { MdAdminPanelSettings } from "react-icons/md";
+import { Helmet } from "react-helmet";
 
 const AdminProfile = () => {
   const { user } = useAuth();
@@ -30,9 +31,12 @@ const AdminProfile = () => {
     };
     allUser();
   }, [axiosPublic]);
-  console.log(allUser);
+
   return (
     <div>
+      <Helmet>
+        <title>Talk Town || Admin Profile</title>
+      </Helmet>
       <div className="max-w-md p-8 sm:flex sm:space-x-6 dark:bg-gray-50 dark:text-gray-800 shadow-lg rounded-lg border mx-auto mt-8">
         <div className="flex-shrink-0 w-full mb-6 h-44 sm:h-32 sm:w-32 sm:mb-0">
           <img
@@ -79,17 +83,19 @@ const AdminProfile = () => {
               <span className="dark:text-gray-600">+25 381 77 983</span>
             </span>
           </div>
-          <div className="">
-            <p>
-              number of posts:{" "}
-              <span className="font-bold">({get?.posts?.length})</span>
-            </p>
-            <p>
-              number of users:{" "}
-              <span className="font-bold">({allUser?.length})</span>
-            </p>
-          </div>
         </div>
+      </div>
+      <div className="">
+        <p>
+          number of users:{" "}
+          <span className="font-bold">({allUser?.length})</span>
+        </p>
+      </div>
+      <div className="w-36 h-32 bg-green-300 shadow-xl rounded-lg text-center font-bold">
+        <p className="text-2xl">
+          number of posts <br />
+          <span className="font-bold">{get?.posts?.length}</span>
+        </p>
       </div>
     </div>
   );

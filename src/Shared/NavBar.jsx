@@ -9,9 +9,7 @@ const NavBar = () => {
   const handleLogOut = () => {
     logOutUser()
       .then(() => {})
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
   const link = (
     <>
@@ -31,12 +29,24 @@ const NavBar = () => {
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "text-orange-500  bg-gray-300 shadow-md font-bold tracking-wide"
-              : "text-[#363f4d] font-bold bg-gray-300 shadow-md"
+              ? "text-orange-500  bg-gray-300 shadow-md font-bold tracking-wide mr-3"
+              : "text-[#363f4d] font-bold bg-gray-300 shadow-md mr-3"
           }
           to="/membership"
         >
           Membership
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          className={({ isActive }) =>
+            isActive
+              ? "text-orange-500  bg-gray-300 shadow-md font-bold tracking-wide"
+              : "text-[#363f4d] font-bold bg-gray-300 shadow-md"
+          }
+          to="/contact"
+        >
+          Contact Us
         </NavLink>
       </li>
     </>
@@ -88,7 +98,7 @@ const NavBar = () => {
           </h1>
         </div>
 
-        <div className="navbar-center hidden lg:flex lg:mr-[360px] mt-2">
+        <div className="navbar-center hidden lg:flex lg:mr-[300px] mt-2">
           <ul className="menu menu-horizontal px-1 ">{link}</ul>
         </div>
         <div className="flex-none">

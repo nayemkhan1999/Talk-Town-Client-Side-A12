@@ -20,7 +20,15 @@ import AdminProfile from "./Dashboard/Admin/AdminProfile/AdminProfile";
 import ManageUser from "./Dashboard/Admin/ManageUser/ManageUser";
 import MemberShip from "./Shared/MemberShip/MemberShip";
 import PaymentMethod from "../src/Shared/PaymentMethod/PaymentMethod";
+import Contact from "./Home/Contact";
+import { HelmetProvider } from "react-helmet-async";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from "@tanstack/react-query";
 
+const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
     path: "/",
@@ -30,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
       },
       {
         path: "/membership",
@@ -111,7 +123,11 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <HelmetProvider>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </HelmetProvider>
       <Toaster />
     </AuthProvider>
   </React.StrictMode>

@@ -1,21 +1,29 @@
-import { useEffect, useState } from "react";
 import useAxiosPublic from "../../../CustomHook/useAxiosPublic";
 import ShowMyPost from "./ShowMyPost";
 import useAuth from "../../../CustomHook/useAuth";
+import { Helmet } from "react-helmet";
+import { useQuery } from "@tanstack/react-query";
 
 const MyPost = () => {
   const axiosPublic = useAxiosPublic();
-  const [data, setData] = useState([]);
+
   const { user } = useAuth();
 
-  useEffect(() => {
-    axiosPublic.get(`/allPost/${user?.email}`).then((res) => {
-      setData(res.data);
-    });
-  }, [axiosPublic, user?.email]);
-  console.log(data);
+  const { refetch, data: MyData = [] } = useQuery({
+    queryKey: ["data"],
+    queryFn: async () => {
+      const result = await axiosPublic.get(`/allPost/${user?.email}`, {
+        withCredentials: true,
+      });
+      return result?.data;
+    },
+  });
+  console.log(MyData);
   return (
     <div>
+      <Helmet>
+        <title>Talk Town || My post</title>
+      </Helmet>
       <div className="overflow-x-auto mt-5">
         <table className="table ">
           {/* head */}
@@ -31,8 +39,8 @@ const MyPost = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((Fz) => (
-              <ShowMyPost key={Fz._id} Fz={Fz}></ShowMyPost>
+            {MyData.map((Fz) => (
+              <ShowMyPost key={Fz._id} Fz={Fz} refetch={refetch}></ShowMyPost>
             ))}
           </tbody>
         </table>

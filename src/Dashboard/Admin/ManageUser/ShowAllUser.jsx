@@ -1,6 +1,7 @@
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../../CustomHook/useAxiosPublic";
-const ShowAllUser = ({ hero }) => {
+import { Link } from "react-router-dom";
+const ShowAllUser = ({ hero, refetch }) => {
   const { name, email, image, role } = hero;
 
   const axiosPublic = useAxiosPublic();
@@ -21,8 +22,9 @@ const ShowAllUser = ({ hero }) => {
           { changeRole },
           { withCredentials: true }
         );
-        console.log(result.data);
+
         if (result.data.modifiedCount > 0) {
+          refetch();
           Swal.fire({
             title: "Updated!",
             text: "Your role has been Updated!",
@@ -59,21 +61,25 @@ const ShowAllUser = ({ hero }) => {
             <button
               disabled
               onClick={handleClick}
-              className="btn btn-ghost btn-xs text-xs bg-green-100 :"
+              className="btn btn-ghost btn-xs text-xs bg-green-100 font-bold:"
             >
               Make an Admin
             </button>
           ) : (
             <button
               onClick={handleClick}
-              className="btn btn-ghost btn-xs text-xs bg-green-100 :"
+              className="btn btn-ghost btn-xs text-xs bg-green-100 font-bold :"
             >
               Make an Admin
             </button>
           )}
         </th>
         <th>
-          <button className="btn btn-ghost btn-xs">Subscription</button>
+          <Link to="/memberShip">
+            <button className="btn btn-ghost btn-xs bg-rose-200">
+              Subscription
+            </button>
+          </Link>
         </th>
       </tr>
     </>

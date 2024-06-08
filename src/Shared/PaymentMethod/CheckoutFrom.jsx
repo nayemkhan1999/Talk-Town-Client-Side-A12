@@ -14,7 +14,6 @@ const CheckoutForm = () => {
   const [clientSecret, setClientSecret] = useState("");
   useEffect(() => {
     axiosPublic.post("/create-payment-intent").then((res) => {
-      console.log(res.data.clientSecret);
       setClientSecret(res.data.clientSecret);
     });
   }, [axiosPublic]);
@@ -45,7 +44,7 @@ const CheckoutForm = () => {
     });
 
     if (error) {
-      console.log("[error]", error);
+      // console.log("[error]", error);
       setError(error.message);
     } else {
       console.log("[PaymentMethod]", paymentMethod);

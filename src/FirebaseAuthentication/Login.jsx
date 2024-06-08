@@ -5,6 +5,7 @@ import useAuth from "../CustomHook/useAuth";
 import toast from "react-hot-toast";
 import { TbFidgetSpinner } from "react-icons/tb";
 import { space } from "postcss/lib/list";
+import { Helmet } from "react-helmet";
 const Login = () => {
   const { loginUser, loading, setLoading } = useAuth();
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+ 
     //Login User
     loginUser(data?.email, data?.password).then((result) => {
       setLoading(true);
@@ -31,6 +32,9 @@ const Login = () => {
   };
   return (
     <div className="averia-serif lg:mx-10 ">
+      <Helmet>
+        <title>Talk Town || Login page</title>
+      </Helmet>
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse justify-between">
           <div className="text-center lg:text-left">
