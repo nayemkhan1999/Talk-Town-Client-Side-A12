@@ -7,10 +7,11 @@ const ShowActivities = ({ TVS }) => {
       <tbody>
         <tr>
           <th></th>
+          <th></th>
           <td>{user?.email}</td>
           <td>{TVS?.comment}</td>
           <td>
-            <select className="select w-full max-w-xs">
+            <select className="select w-full max-w-xs ">
               <option disabled selected>
                 Comment Feedback
               </option>

@@ -29,6 +29,7 @@ const Activities = () => {
           <thead>
             <tr>
               <th></th>
+              <th></th>
               <th>Email</th>
               <th>Comments</th>
               <th>feedback</th>

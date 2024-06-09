@@ -2,6 +2,7 @@ import { AiOutlineComment } from "react-icons/ai";
 import Swal from "sweetalert2";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import useAxiosPublic from "../../../CustomHook/useAxiosPublic";
+import { Link } from "react-router-dom";
 
 const ShowMyPost = ({ Fz, refetch }) => {
   const { PostTitle, UpVote, _id } = Fz;
@@ -40,10 +41,12 @@ const ShowMyPost = ({ Fz, refetch }) => {
         <td>{PostTitle}</td>
         <td>{UpVote}</td>
         <th>
-          <button className="btn btn-ghost btn-sm">
-            <AiOutlineComment size={24} className="text-orange-500" />
-            Comments
-          </button>
+          <Link to="/">
+            <button className="btn btn-ghost btn-sm">
+              <AiOutlineComment size={24} className="text-orange-500" />
+              Comments
+            </button>
+          </Link>
         </th>
         <th>
           <button onClick={() => handleDelete(_id)} className="btn btn-md">
