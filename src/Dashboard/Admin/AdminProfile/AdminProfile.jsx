@@ -1,39 +1,72 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useAuth from "../../../CustomHook/useAuth";
 import useAxiosPublic from "../../../CustomHook/useAxiosPublic";
-import { MdAdminPanelSettings } from "react-icons/md";
+import { MdAdminPanelSettings, MdPostAdd } from "react-icons/md";
 import { Helmet } from "react-helmet";
+import React, { PureComponent } from "react";
+import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
+import { useQuery } from "@tanstack/react-query";
 
 const AdminProfile = () => {
   const { user } = useAuth();
   const axiosPublic = useAxiosPublic();
   const [showRole, setShowRole] = useState();
-  const [get, setGet] = useState();
-  const [allUser, setAllUser] = useState();
 
+  // pie Chart
+  const data = [
+    { name: "Group A", value: 400 },
+    { name: "Group B", value: 300 },
+    { name: "Group C", value: 300 },
+    { name: "Group D", value: 200 },
+  ];
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+  const RADIAN = Math.PI / 180;
+
+  const renderCustomizedLabel = ({
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    percent,
+    index,
+  }) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="white"
+        textAnchor={x > cx ? "start" : "end"}
+        dominantBaseline="central"
+      >
+        {`${(percent * 100).toFixed(0)}%`}
+      </text>
+    );
+  };
   // ===============Admin Role Play================
   axiosPublic.get(`/Role/${user?.email}`).then((res) => {
     setShowRole(res?.data);
   });
 
-  // =================Number of All Post====================
-  useEffect(() => {
-    axiosPublic.get("/allPost").then((res) => {
-      setGet(res.data);
-    });
-  }, [axiosPublic]);
+  // All Data loade
+  const { refetch, data: allDatas = [] } = useQuery({
+    queryKey: ["allData"],
+    queryFn: async () => {
+      const result = await axiosPublic.get("/allData", {
+        withCredentials: true,
+      });
 
-  // ==================Number of Users / All Users Length=================
-  useEffect(() => {
-    const allUser = async () => {
-      const result = await axiosPublic.get("/users");
-      setAllUser(result.data);
-    };
-    allUser();
-  }, [axiosPublic]);
+      return result?.data;
+    },
+  });
+  console.log(allDatas, "80");
 
   return (
-    <div>
+    <div className=" averia-serif lg:mx-10">
       <Helmet>
         <title>Talk Town || Admin Profile</title>
       </Helmet>
@@ -85,17 +118,73 @@ const AdminProfile = () => {
           </div>
         </div>
       </div>
-      <div className="">
-        <p>
-          number of users:{" "}
-          <span className="font-bold">({allUser?.length})</span>
-        </p>
+      <div className="lg:ml-56 my-5">
+        <div className="stats shadow">
+          <div className="stat">
+            <div className="stat-figure text-primary">
+              <MdPostAdd size={28} />
+            </div>
+            <div className="stat-title">Total Posts</div>
+            <div className="stat-value text-primary">{allDatas?.allPost}</div>
+            <div className="stat-desc">21% more than last month</div>
+          </div>
+
+          <div className="stat">
+            <div className="stat-figure text-secondary">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                className="inline-block w-8 h-8 stroke-current"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                ></path>
+              </svg>
+            </div>
+            <div className="stat-title">Total Comments</div>
+            <div className="stat-value text-secondary">2.6M</div>
+            <div className="stat-desc">21% more than last month</div>
+          </div>
+
+          <div className="stat">
+            <div className="stat-figure text-secondary">
+              <div className="avatar online">
+                <div className="w-16 rounded-full">
+                  <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                </div>
+              </div>
+            </div>
+            <div className="stat-value">{allDatas?.allUser}</div>
+            <div className="stat-title">Total Users</div>
+            <div className="stat-desc text-secondary">31 tasks remaining</div>
+          </div>
+        </div>
       </div>
-      <div className="w-36 h-32 bg-green-300 shadow-xl rounded-lg text-center font-bold">
-        <p className="text-2xl">
-          number of posts <br />
-          <span className="font-bold">{get?.posts?.length}</span>
-        </p>
+      {/* pieChart */}
+      <div>
+        <PieChart width={400} height={400}>
+          <Pie
+            data={data}
+            cx="50%"
+            cy="50%"
+            labelLine={false}
+            label={renderCustomizedLabel}
+            outerRadius={80}
+            fill="#8884d8"
+            dataKey="value"
+          >
+            {data.map((entry, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={COLORS[index % COLORS.length]}
+              />
+            ))}
+          </Pie>
+        </PieChart>
       </div>
     </div>
   );

@@ -1,6 +1,9 @@
 import { IoNotificationsSharp } from "react-icons/io5";
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../CustomHook/useAuth";
+import useAxiosPublic from "../CustomHook/useAxiosPublic";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 const NavBar = () => {
   const { user, logOutUser } = useAuth();
@@ -52,6 +55,20 @@ const NavBar = () => {
     </>
   );
 
+  // show notification
+  const axiosPublic = useAxiosPublic();
+
+  const { refetch, data: notify = [] } = useQuery({
+    queryKey: ["notificaton"],
+    queryFn: async () => {
+      const result = await axiosPublic.get("/announce", {
+        withCredentials: true,
+      });
+      return result.data;
+    },
+  });
+  refetch();
+  // console.log(notify, "69");
   return (
     <div className="averia-serif lg:mx-10 ">
       <div className="navbar bg-base-100">
@@ -102,6 +119,7 @@ const NavBar = () => {
           <ul className="menu menu-horizontal px-1 ">{link}</ul>
         </div>
         <div className="flex-none">
+          {/* Show Notification */}
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
@@ -110,7 +128,9 @@ const NavBar = () => {
             >
               <div className="indicator ">
                 <IoNotificationsSharp className="z-10" size={22} />
-                <span className="badge badge-sm indicator-item">8</span>
+                <span className="badge badge-sm indicator-item">
+                  {notify?.length}
+                </span>
               </div>
             </div>
             <div
@@ -118,12 +138,16 @@ const NavBar = () => {
               className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow"
             >
               <div className="card-body">
-                <span className="font-bold text-lg">8 Items</span>
-                <span className="text-info">Subtotal: $999</span>
+                <span className="font-bold text-lg">
+                  {notify?.length} Items
+                </span>
+
                 <div className="card-actions">
-                  <button className="btn btn-primary btn-block">
-                    View cart
-                  </button>
+                  <Link to="/announcement">
+                    <button className="btn btn-primary btn-sm  btn-block">
+                      Announcement
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>

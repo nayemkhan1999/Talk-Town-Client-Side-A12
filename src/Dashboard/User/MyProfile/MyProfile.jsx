@@ -3,6 +3,7 @@ import useAuth from "../../../CustomHook/useAuth";
 
 const MyProfile = () => {
   const { user } = useAuth();
+  console.log(user);
   return (
     <div>
       <Helmet>
@@ -19,7 +20,7 @@ const MyProfile = () => {
         <div className="flex flex-col space-y-4">
           <div>
             <h2 className="text-2xl font-semibold">{user.displayName}</h2>
-            <span className="text-sm dark:text-gray-600">Bronze Badge</span>
+            <span className="text-sm dark:text-gray-600">{user?.badge}</span>
           </div>
           <div className="space-y-1">
             <span className="flex items-center space-x-2">

@@ -62,7 +62,7 @@ const CategoriesTags = ({ saveData }) => {
   return (
     <div className="averia-serif lg:mx-10 mt-2">
       <Tabs defaultIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
-        <TabList className="border-none  space-x-10 mx-auto flex  w-full">
+        <TabList className="border-none  space-x-10 mx-auto flex overflow-x-auto lg:overflow-x-hidden lg:overflow-y-hidden   w-full">
           <Tab>
             <div>
               <FaShare size={24} className=" mx-auto" />

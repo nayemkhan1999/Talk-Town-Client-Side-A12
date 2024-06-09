@@ -46,7 +46,8 @@ const Register = () => {
           const email = data.email;
           const name = data.name;
           const image = imagePhoto;
-          const allUser = { role, email, name, image };
+          const badge = "Bronze Badge";
+          const allUser = { role, email, name, image, badge };
 
           const results = await axiosPublic.post("/users", allUser, {
             withCredentials: true,

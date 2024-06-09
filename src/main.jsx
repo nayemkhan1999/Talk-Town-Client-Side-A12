@@ -27,6 +27,7 @@ import {
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
+import Announcement from "./Dashboard/Admin/Announcement/Announcement";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -113,6 +114,14 @@ const router = createBrowserRouter([
         element: (
           <PrivetRoute>
             <ManageUser />
+          </PrivetRoute>
+        ),
+      },
+      {
+        path: "announcement",
+        element: (
+          <PrivetRoute>
+            <Announcement />
           </PrivetRoute>
         ),
       },
