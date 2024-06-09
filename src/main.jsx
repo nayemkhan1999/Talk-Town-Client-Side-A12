@@ -22,12 +22,9 @@ import MemberShip from "./Shared/MemberShip/MemberShip";
 import PaymentMethod from "../src/Shared/PaymentMethod/PaymentMethod";
 import Contact from "./Home/Contact";
 import { HelmetProvider } from "react-helmet-async";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Announcement from "./Dashboard/Admin/Announcement/Announcement";
+import Activities from "./Dashboard/Admin/Activities/Activities";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -122,6 +119,14 @@ const router = createBrowserRouter([
         element: (
           <PrivetRoute>
             <Announcement />
+          </PrivetRoute>
+        ),
+      },
+      {
+        path: "activities",
+        element: (
+          <PrivetRoute>
+            <Activities />
           </PrivetRoute>
         ),
       },

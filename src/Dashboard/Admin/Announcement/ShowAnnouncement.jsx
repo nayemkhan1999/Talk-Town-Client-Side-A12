@@ -14,7 +14,6 @@ const ShowAnnouncement = () => {
       return result.data;
     },
   });
-  console.log(ShowData, "16");
 
   return (
     <div className="averia-serif lg:mx-10 mt-16 ">
