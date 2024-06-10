@@ -1,14 +1,13 @@
 import useAuth from "../../../CustomHook/useAuth";
 
 const ShowActivities = ({ TVS }) => {
-  const { user } = useAuth();
   return (
     <>
       <tbody>
         <tr>
           <th></th>
           <th></th>
-          <td>{user?.email}</td>
+          <td>{TVS.email}</td>
           <td>{TVS?.comment}</td>
           <td>
             <select className="select w-full max-w-xs ">

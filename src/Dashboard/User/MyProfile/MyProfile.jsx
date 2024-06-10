@@ -3,10 +3,13 @@ import useAuth from "../../../CustomHook/useAuth";
 import useAxiosPublic from "../../../CustomHook/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
 import { LuBadgeDollarSign } from "react-icons/lu";
+import { useEffect, useState } from "react";
+import { SlDislike, SlLike } from "react-icons/sl";
+import { IoMdPricetags } from "react-icons/io";
 
 const MyProfile = () => {
   const { user } = useAuth();
-
+  const [topThreePosts, setTopThreePosts] = useState([]);
   const axiosPublic = useAxiosPublic();
 
   const { refetch, data: profile = [] } = useQuery({
@@ -18,7 +21,20 @@ const MyProfile = () => {
       return result?.data;
     },
   });
-  console.log(profile);
+
+  useEffect(() => {
+    axiosPublic
+      .get(`/userPost/${user?.email}`, {
+        withCredentials: true,
+      })
+      .then((result) => {
+        const sortedPosts = result.data.sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        );
+        const topThree = sortedPosts.slice(0, 3);
+        setTopThreePosts(topThree);
+      });
+  }, [axiosPublic, user?.email]);
 
   return (
     <div>
@@ -29,7 +45,7 @@ const MyProfile = () => {
       <div className="max-w-md p-8 sm:flex sm:space-x-6 dark:bg-gray-50 dark:text-gray-800 shadow-lg rounded-lg border mx-auto mt-8">
         <div className="flex-shrink-0 w-full mb-6 h-44 sm:h-32 sm:w-32 sm:mb-0">
           <img
-            src={profile.map((pk) => pk.image)}
+            src={profile.length > 0 && profile[0].image}
             alt=""
             className="w-32 h-32 mx-auto rounded-full dark:bg-gray-500 aspect-square"
           />
@@ -37,14 +53,14 @@ const MyProfile = () => {
         <div className="flex flex-col space-y-4">
           <div>
             <h2 className="text-2xl font-semibold">
-              {profile.map((pk) => pk.name)}
+              {profile.length > 0 && profile[0].name}
             </h2>
             <span className="text-sm dark:text-gray-600 font-bold flex items-center gap-1">
-              <LuBadgeDollarSign className="text-orange-400" size={20} />{" "}
-              {profile.map((pk) => pk.badge)}
+              <LuBadgeDollarSign className="text-orange-400" size={20} />
+              {profile.length > 0 && profile[0].badge}
             </span>
             <h1 className="text-sm dark:text-gray-600 font-bold mt-3">
-              Role: {profile.map((pk) => pk.role)}
+              Role: {profile.length > 0 && profile[0].role}
             </h1>
           </div>
 
@@ -62,7 +78,7 @@ const MyProfile = () => {
                 ></path>
               </svg>
               <span className="dark:text-gray-600">
-                {profile.map((pk) => pk.email)}
+                {profile.length > 0 && profile[0].email}
               </span>
             </span>
             <span className="flex items-center space-x-2">
@@ -80,6 +96,63 @@ const MyProfile = () => {
               <span className="dark:text-gray-600">+25 381 77 983</span>
             </span>
           </div>
+        </div>
+      </div>
+
+      <div className="mt-8 averia-serif lg:mx-10 ">
+        <h2 className="text-2xl font-semibold text-center mb-5">Top 3 Posts</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8 mt-5">
+          {topThreePosts.map((post, index) => (
+            <div key={index} className="">
+              <div>
+                <div className="flex items-center gap-4">
+                  <img
+                    src={post.image}
+                    alt=""
+                    className="object-cover w-12 h-12 rounded-full shadow dark:bg-gray-500"
+                  />
+                  <div className="flex flex-col space-y-1">
+                    <a
+                      rel="noopener noreferrer"
+                      href="#"
+                      className="text-base font-semibold"
+                    >
+                      {post.name}
+                    </a>
+                    <span className="text-xs dark:text-gray-600 font-bold">
+                      {post.date} Post Time
+                    </span>
+                  </div>
+                  <div className="flex items-center ml-20">
+                    <IoMdPricetags />
+                    {post.Tags}
+                  </div>
+                </div>
+
+                <div className="flex flex-col space-y-1"></div>
+              </div>
+              <div className="flex flex-col space-y-4">
+                <div className="space-y-1 mt-2">
+                  <span className="text-gray-500  text-sm">
+                    {post.description}
+                  </span>
+                </div>
+
+                {/* ========03======== */}
+                <div className="flex items-center gap-5">
+                  <span className="text-sm dark:text-gray-600 flex items-center">
+                    <SlLike />
+                    UpVotes: {post.UpVote}
+                  </span>
+                  <span className="text-sm dark:text-gray-600 flex items-center">
+                    <SlDislike />
+                    DownVotes: {post.DownVote}
+                  </span>
+                </div>
+              </div>
+              {/* ========01======== */}
+            </div>
+          ))}
         </div>
       </div>
     </div>

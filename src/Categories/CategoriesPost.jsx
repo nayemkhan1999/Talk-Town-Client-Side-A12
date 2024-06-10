@@ -6,11 +6,13 @@ import { Link } from "react-router-dom";
 import useAxiosPublic from "../CustomHook/useAxiosPublic";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import useAuth from "../CustomHook/useAuth";
 
 const CategoriesPost = ({ card }) => {
   const { name, Tags, image, PostTitle, description, date, UpVote, DownVote } =
     card;
   const axiosPublic = useAxiosPublic();
+  const { user } = useAuth();
 
   const {
     register,
@@ -22,8 +24,11 @@ const CategoriesPost = ({ card }) => {
 
   const onSubmit = (data) => {
     console.log(data.comment);
+    const email = user?.email;
+    const comment = data.comment;
+    const UserInfo = { email, comment };
 
-    axiosPublic.post("/userComment", data).then((result) => {
+    axiosPublic.post("/userComment", UserInfo).then((result) => {
       console.log(result.data);
     });
     toast.success("Your Comment Successful");
