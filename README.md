@@ -1,6 +1,6 @@
 # Talk Town
 
-live link url: coming soon......
+live link url: https://b12-talktown.web.app
 
 - Admin UserName : shakibalhasan@gmail.com
 - Admin Password : 123456
